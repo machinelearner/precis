@@ -20,6 +20,6 @@ clean:
 	find . -name '*.pyc' -exec rm -f {} \;
 
 tests:
-	make eggs
-	make clean
+	make eggs && \
+	make clean && \
 	nosetests -s
