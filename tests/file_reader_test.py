@@ -6,7 +6,7 @@ from precis.utils import FileReader
 
 class FileReaderTest(TestCase):
     def setUp(self):
-        self.path = ospath.join(ospath.dirname(__file__), "test_data/multi_document_test/1.txt")
+        self.path = ospath.join(ospath.dirname(__file__), "test_data/multi_document_test/2.txt")
 
     def test_shouldReadFromFile(self):
         expected_file_content = """This is content of the file.\nWith line separated. blabla"""

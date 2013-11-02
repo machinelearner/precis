@@ -27,10 +27,12 @@ class Document:
     def sent_hashKey(self,sent_number):
         return "doc" + str(self.id) + "-" + "sent" + str(sent_number)
 
-
     def __eq__(self, other):
         return (isinstance(other, self.__class__)
-                and self.__dict__ == other.__dict__)
+                and self.text == other.text and self.id == other.id)
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash(self.id) ^ hash(self.text)
