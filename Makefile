@@ -10,7 +10,7 @@ env:
 	pip install virtualenv && \
 	virtualenv .env && \
 	. .env/bin/activate && \
-	make eggs
+	make eggs && \
 	python nltk_setup.py
 
 eggs:
