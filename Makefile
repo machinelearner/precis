@@ -10,11 +10,11 @@ env:
 	pip install virtualenv && \
 	virtualenv .env && \
 	. .env/bin/activate && \
-	make eggs && \
-	python nltk_setup.py
+	make eggs
 
 eggs:
 	pip install -r eggs.txt;
+	python nltk_setup.py
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} \;
