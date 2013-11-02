@@ -1,0 +1,2 @@
+This is content of the file.
+With line separated. blabla
