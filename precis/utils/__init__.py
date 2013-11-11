@@ -1,1 +1,2 @@
 from file_reader import FileReader
+from cosine_similarity import CosineSimilarity

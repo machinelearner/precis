@@ -6,5 +6,4 @@ class ConnectedNodes:
         return self.connections_set.isdisjoint({(a_key, other_key)})
 
     def add(self, connection):
-        print "Connected Sentence %s with %s" % connection
         self.connections_set.add(connection)

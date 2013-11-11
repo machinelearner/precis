@@ -21,7 +21,9 @@ class Document:
         sentences = defaultdict(list)
         sentence_list = self.text_processor.sent_tokenize(self.text)
         for id,sentence in enumerate(sentence_list):
-            sentences[self.sent_hashKey(id)] = self.text_processor.stopped_tokenize(sentence)
+            stopped_sentence = self.text_processor.stopped_tokenize(sentence)
+            if stopped_sentence:
+                sentences[self.sent_hashKey(id)] = stopped_sentence
         return sentences
 
     def sent_hashKey(self,sent_number):
