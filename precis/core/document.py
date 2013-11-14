@@ -7,8 +7,8 @@ import os
 class Document:
     def __init__(self, id=0,text="",text_processor=TextProcessor()):
         self.id = id
-        self.text = text
         self.text_processor = text_processor
+        self.text = text_processor.remove_non_ascii(text)
 
     def sentence_dict(self):
         sentences = defaultdict(str)

@@ -19,13 +19,12 @@ class TestMultiDocumentCorpus(TestCase):
 
         self.assertEquals(actual_multi_document, expected_multi_document)
 
-    def generateSummaries(self):
+    def test_generateSummaries(self):
         test_documents_path = ospath.join(ospath.dirname(__file__), "test_data/summarize_multi_document_test")
         documents = MultiDocumentCorpus(test_documents_path).multi_document()
         documents.summarize_and_print()
 
-    def generateConnectedSummaries(self):
+    def test_generateConnectedSummaries(self):
         test_documents_path = ospath.join(ospath.dirname(__file__), "test_data/summarize_multi_document_test")
         documents = MultiDocumentCorpus(test_documents_path).multi_document()
         documents.summarize_using_communities()
-        sentences = documents.raw_sentences()

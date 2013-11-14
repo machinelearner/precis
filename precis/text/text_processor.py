@@ -47,3 +47,6 @@ class TextProcessor:
             synonyms = [x for x in wordnet.synsets(word)]
             synonym_dictionary[word] = synonyms
         return synonym_dictionary
+
+    def remove_non_ascii(self, text):
+        return "".join(filter(lambda x: ord(x)<128, text))
