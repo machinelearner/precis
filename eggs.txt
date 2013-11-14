@@ -4,4 +4,5 @@ mockito==0.5.1
 networkx==1.8.1
 nltk==2.0.4
 nose==1.3.0
+python-igraph==0.6.5
 wsgiref==0.1.2
