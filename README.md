@@ -2,7 +2,6 @@ Précis
 ======
 pronounced "preh-si"
 
-[![Build Status](https://travis-ci.org/machinelearner/precis.png)](https://travis-ci.org/machinelearner/precis)
 
 ### Graph Based Multi-Document Text summarization engine with semantic feature weightage.
 
