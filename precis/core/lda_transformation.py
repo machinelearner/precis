@@ -6,8 +6,8 @@ from precis.utils import CosineSimilarity
 
 class LDATransformation:
 
-    def __init__(self, input_space_vectors):
-        self.input_space_vectors = input_space_vectors
+    def __init__(self, input_space_vectors_map):
+        self.input_space_vectors = input_space_vectors_map.values()
         self.transform()
 
     def transform(self):

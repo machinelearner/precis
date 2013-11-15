@@ -12,8 +12,10 @@ class TestDocument(TestCase):
             "doc123-sent1" : sample_sentences[1]
         }
         mockProcessor = mock()
-        test_document = Document(id=123,text=sample_text,text_processor=mockProcessor)
+
         when(mockProcessor).sent_tokenize(sample_text).thenReturn(sample_sentences)
+        when(mockProcessor).remove_non_ascii(sample_text).thenReturn(sample_text)
+        test_document = Document(id=123,text=sample_text,text_processor=mockProcessor)
 
         actual_sentence_dict = test_document.sentence_dict()
         self.assertEquals(actual_sentence_dict,expected_sentence_dict)

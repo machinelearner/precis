@@ -36,11 +36,9 @@ class MultiDocument:
     def summarize_using_communities(self):
         tokenised_sentences = self.tokenised_sentences()
         raw_sentences = self.raw_sentences()
-        self.summarizer.community_summary(tokenised_sentences)
-        #summary = []
-        #for sentence in sentences_in_summary:
-        #    summary.append(raw_sentences[sentence])
-        #return summary
+        summary_sentence_ids = self.summarizer.community_summary(tokenised_sentences)
+        summary = [raw_sentences[sentence] for sentence in summary_sentence_ids]
+        return summary
 
     def summarize_and_print(self):
         summary_sentences = self.summarize()

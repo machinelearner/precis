@@ -50,3 +50,18 @@ class TextProcessor:
 
     def remove_non_ascii(self, text):
         return "".join(filter(lambda x: ord(x)<128, text))
+
+    def extract_ner_tree(self,tokens):
+        pos_tagged_sentence = self.pos_tag(tokens)
+        NER_tree = nltk.ne_chunk(pos_tagged_sentence, binary=True)
+        return NER_tree
+
+    def get_n_e_r_weight(self,tokenised_sentence):
+        NER_tree = self.extract_ner_tree(tokenised_sentence)
+        if not(NER_tree):
+            return 0
+        number_of_NERs = reduce(lambda value1,value2: value1+value2,map(lambda node: 1 if isinstance(node,nltk.tree.Tree) else 0,NER_tree))
+        return number_of_NERs
+
+    def information_index(self, tokenised_sentence):
+        return self.get_n_e_r_weight(tokenised_sentence) / float(len(tokenised_sentence))
