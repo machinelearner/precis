@@ -21,13 +21,14 @@ class TextProcessor:
 
     def stopped_tokenize(self, text):
         tokens = self.tokenize(text.lower())
-        tokens = filter(lambda x: x not in self.STOP_WORDS and len(x) > 1, tokens)
+        tokens = filter(lambda x: x not in self.STOP_WORDS and len(x) > 3, tokens)
         return tokens
 
     def sent_tokenize(self,text):
         sentences = re.compile("[\n\.?]").split(text)
         sentences = filter(lambda sentence: not self.is_blank(sentence), sentences)
         sentences = map(lambda sentence: sentence.strip(), sentences)
+        sentences = map(lambda sentence: re.compile(r'<.*?>').sub('', sentence), sentences)
         return sentences
 
     def nltk_sentences(self, text):

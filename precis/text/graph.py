@@ -20,6 +20,7 @@ class SentenceGraph():
 
     def multilevel_communities(self):
         return self._graph.community_multilevel(weights=self.WEIGHT, return_levels=True)
+        #return self._graph.community_spinglass(weights=self.WEIGHT)
 
     def find_best_community_level(self, community_levels):
         best_community_level_index = 0

@@ -59,13 +59,17 @@ class MultiDocumentCorpus:
         self.path = directory_path
 
     def multi_document(self):
-        text_files = []
         documents = []
-        for root, dirs, files in os.walk(self.path):
-            text_files += map(lambda file_name: os.path.join(root, file_name), files)
-        for doc_no, filepath in enumerate(text_files):
+        abs_path = os.path.abspath(self.path)
+        text_files = sorted(self._list_files())
+        for text_file in text_files:
+            filepath = os.path.join(abs_path, text_file)
             text = FileReader.read(filepath)
-            documents.append(Document(id=doc_no, text=text))
+            documents.append(Document(id=text_file, text=text))
 
         return MultiDocument(documents=documents)
+
+    def _list_files(self):
+        path = os.path.abspath(self.path)
+        return [listed for listed in os.listdir(path) if os.path.isfile(os.path.join(path, listed))]
 

@@ -11,8 +11,8 @@ class TestMultiDocumentCorpus(TestCase):
     def test_shouldCreateMultiDocumentGivenADirectoryPath(self):
         document_text1 = """This is content of the file1\nWith line separated. blabla !!!"""
         document_text2 = """This is content of the file.\nWith line separated. blabla"""
-        document1 = Document(id=0, text=document_text1)
-        document2 = Document(id=1, text=document_text2)
+        document1 = Document(id="1.txt", text=document_text1)
+        document2 = Document(id="2.txt", text=document_text2)
         expected_multi_document = MultiDocument(documents=[document1, document2])
 
         actual_multi_document = MultiDocumentCorpus(self.test_documents_path).multi_document()
