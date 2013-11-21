@@ -13,10 +13,10 @@ class TestDocument(TestCase):
         }
         mockProcessor = mock()
 
-        when(mockProcessor).sent_tokenize(sample_text).thenReturn(sample_sentences)
+        when(mockProcessor).nltk_sentences(sample_text).thenReturn(sample_sentences)
         when(mockProcessor).remove_non_ascii(sample_text).thenReturn(sample_text)
         test_document = Document(id=123,text=sample_text,text_processor=mockProcessor)
 
         actual_sentence_dict = test_document.sentence_dict()
         self.assertEquals(actual_sentence_dict,expected_sentence_dict)
-        verify(mockProcessor).sent_tokenize(sample_text)
+        verify(mockProcessor).nltk_sentences(sample_text)

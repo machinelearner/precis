@@ -11,35 +11,20 @@ class TextProcessor:
         return token in self.STOP_WORDS
 
     def tokenize(self, text):
-        tokens = []
-        tokenizer = RegexpTokenizer('(\$?\d+\.\d+)|(([\w]+-)*[\w]+)')
-        tokens += tokenizer.tokenize(text)
-        return tokens
-
-    def tokenize_raw(self, text):
-        return self.tokenize(text)
+        return nltk.word_tokenize(text)
 
     def stopped_tokenize(self, text):
+        text = re.compile(r'<.*?>').sub(' ', text)
         tokens = self.tokenize(text.lower())
         tokens = filter(lambda x: x not in self.STOP_WORDS and len(x) > 3, tokens)
         return tokens
 
-    def sent_tokenize(self,text):
-        sentences = re.compile("[\n\.?]").split(text)
-        sentences = filter(lambda sentence: not self.is_blank(sentence), sentences)
-        sentences = map(lambda sentence: sentence.strip(), sentences)
-        sentences = map(lambda sentence: re.compile(r'<.*?>').sub('', sentence), sentences)
-        return sentences
-
     def nltk_sentences(self, text):
+        text = re.compile(r'<.*?>').sub(' ', text)
         return nltk.sent_tokenize(text)
 
     def pos_tag(self, text):
         return nltk.pos_tag(text)
-
-    def is_blank(self, text):
-        tokens = self.tokenize_raw(text)
-        return len(tokens) == 0
 
     @classmethod
     def synonyms_for(cls, set_of_tokens):

@@ -1,11 +1,10 @@
+from collections import defaultdict
 from unittest import TestCase
 from gensim import corpora
-from gensim.models import LdaModel, LsiModel
+from gensim.models import LdaModel
 
-import logging
+from precis.core.lda_transformation import LDATransformation
 from precis.utils import CosineSimilarity
-
-#logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
 
 
 class LDATest(TestCase):
@@ -59,3 +58,28 @@ class LDATest(TestCase):
         for j in range(0, 9):
             cos_sim = CosineSimilarity().calculate(new_vector, score_vector_matrix[j])
             print "(new doc" + str(j) + ") : " + str(cos_sim)
+
+    def test_shouldCheckForConsistencyOfLDAModel(self):
+        tokenised_documents_dict = defaultdict();
+
+        #tokenised_documents_dict["sent1"] = ["liked", "Kevin", "Costner", "great", "job", "movie"]
+        #tokenised_documents_dict["sent2"] = ["felt", "Ashton", "great", "job", "liked"]
+        #tokenised_documents_dict["sent3"] = ["pleasantly", "surprised", "Kevin", "Costner", "Ashton", "Kutcher", "find", "movie", "showing", "sneak", "preview", "local", "theater"]
+
+        tokenised_documents_dict["sent1"] = ["human", "machine", "interface", "lab", "abc", "computer", "applications"]
+        tokenised_documents_dict["sent2"] = ["survey", "user", "opinion", "computer", "system", "response", "time"]
+        tokenised_documents_dict["sent3"] = ["EPS", "user", "interface", "management", "system"]
+        tokenised_documents_dict["sent4"] = ["system", "human", "system", "engineering", "testing", "EPS"]
+        tokenised_documents_dict["sent5"] = ["Relation", "user", "perceived", "response", "time", "error", "measurement"]
+        tokenised_documents_dict["sent6"] = ["generation", "random", "binary", "unordered", "trees"]
+        tokenised_documents_dict["sent7"] = ["intersection", "Graph", "paths", "trees"]
+        tokenised_documents_dict["sent8"] = ["Graph", "minors", "IV", "Widths", "trees", "quasi", "ordering"]
+        tokenised_documents_dict["sent9"] = ["Graph", "minors", "survey"]
+
+        for i in range(5):
+            print "\n\n************* ITERATION " + str(i) + " *************"
+            lda_transformation = LDATransformation(tokenised_documents_dict);
+            lda_model = lda_transformation.transform()
+            topics = lda_model.show_topics(topn=20)
+            for topic in topics:
+                print topic

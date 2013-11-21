@@ -24,8 +24,15 @@ class TestMultiDocumentCorpus(TestCase):
         documents = MultiDocumentCorpus(test_documents_path).multi_document()
         documents.summarize_and_print()
 
-    def generateConnectedSummaries(self):
+    def test_generateConnectedSummaries(self):
         test_documents_path = ospath.join(ospath.dirname(__file__), "test_data/summarize_multi_document_test")
+        documents = MultiDocumentCorpus(test_documents_path).multi_document()
+        summary = documents.summarize_using_communities()
+        for sent in summary:
+            print sent
+
+    def generateConnectedSummariesOfReutersNewsArticles(self):
+        test_documents_path = ospath.join(ospath.dirname(__file__), "test_data/reuters_rupee_decline")
         documents = MultiDocumentCorpus(test_documents_path).multi_document()
         summary = documents.summarize_using_communities()
         for sent in summary:

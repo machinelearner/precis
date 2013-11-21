@@ -1,7 +1,5 @@
 from collections import defaultdict
 from precis.text import TextProcessor
-from precis.utils import FileReader
-import os
 
 
 class Document:
@@ -12,14 +10,14 @@ class Document:
 
     def sentence_dict(self):
         sentences = defaultdict(str)
-        sentence_list = self.text_processor.sent_tokenize(self.text)
+        sentence_list = self.text_processor.nltk_sentences(self.text)
         for id,sentence in enumerate(sentence_list):
             sentences[self.sent_hashKey(id)] = sentence
         return sentences
 
     def tokenised_sentences_dict(self):
         sentences = defaultdict(list)
-        sentence_list = self.text_processor.sent_tokenize(self.text)
+        sentence_list = self.text_processor.nltk_sentences(self.text)
         for id,sentence in enumerate(sentence_list):
             stopped_sentence = self.text_processor.stopped_tokenize(sentence)
             if stopped_sentence:

@@ -1,13 +1,13 @@
-from precis.core import Synonyms, TFIDFMeasure
+from precis.core import Synonyms
 from precis.core import ConnectedNodes
-from precis.core.lda_transformation import LDATransformation
+from precis.core.lsi_transformation import LSITransformation
 from precis.text import SentenceGraph, TextProcessor
 
 
 class Summarizer:
     DISSIMILARITY_THRESHOLD = 0.8
 
-    def __init__(self, transformation=LDATransformation):
+    def __init__(self, transformation=LSITransformation):
         self.dissimilar_sentences = SentenceGraph()
         self.transformation = transformation
 

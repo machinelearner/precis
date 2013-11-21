@@ -1,21 +1,14 @@
 from collections import defaultdict
 import operator
-from gensim.models import LdaModel
-from precis.utils import CosineSimilarity
+from gensim.models import LsiModel
 import numpy
+from precis.utils import CosineSimilarity
 
 
-class LDASpace():
+class LSISpace():
     def __init__(self, tokenised_documents):
         self.token_frequency_map = self.token_frequency(tokenised_documents)
         self.id_2_word, self.token_2_id = self.compute_id_word_mappings()
-
-    def normalise(self, frequency_map):
-        normalised_frequency_map = defaultdict(float)
-        max_frequency = max(frequency_map.iteritems(), key=operator.itemgetter(1))[1]
-        map(lambda (token, frequency): normalised_frequency_map.update({token: frequency / float(max_frequency)}),
-            list(frequency_map.iteritems()))
-        return normalised_frequency_map
 
     def prune(self, frequency_map):
         pruned_frequency_map = defaultdict(int)
@@ -36,9 +29,8 @@ class LDASpace():
         word_freq = defaultdict(int)
         for token_list in tokenised_documents:
             map(lambda token: word_freq.update({token: word_freq[token] + 1}), token_list)
-        #return self.normalise(self.prune(word_freq))
-        return self.prune(word_freq)
-        #return word_freq
+        #return self.prune(word_freq)
+        return word_freq
 
     def compute_id_word_mappings(self):
         sorted_tokens = sorted(self.token_frequency_map.iteritems(), key=operator.itemgetter(0))
@@ -51,21 +43,23 @@ class LDASpace():
             return False
         return True
 
+    def length(self):
+        return len(self.token_2_id.keys())
 
-class LDATransformation:
 
+class LSITransformation:
     def __init__(self, input_space_vectors_map):
         self.input_space_vectors = input_space_vectors_map.values()
         self.transform()
 
     def transform(self):
-        self.space = LDASpace(self.input_space_vectors)
+        self.space = LSISpace(self.input_space_vectors)
         #TODO Handle Saner Reduction
-        #self.reduced_space = 3 if len(self.space)/100 < 3 else len(self.space)/10
         self.reduced_space = 15
 
         input_BOWs = [self.space.doc2bow(vector) for vector in self.input_space_vectors]
-        self.lda_model = LdaModel(corpus=input_BOWs, id2word=self.space.id2Word(), num_topics=self.reduced_space, passes=100)
+        self.lsi_model = LsiModel(corpus=input_BOWs, num_topics=self.reduced_space, id2word=self.space.id2Word())
+        return self.lsi_model
 
     def dissimilarity_score(self, tokens, other_tokens):
         bows = self.space.doc2bow(tokens)
@@ -78,5 +72,10 @@ class LDATransformation:
 
     def infer_and_vectorize(self, bows):
         transformed_bow = defaultdict(float)
-        transformed_bow.update(dict(self.lda_model[bows]))
+        transformed_bow.update(dict(self.lsi_model[bows]))
         return [transformed_bow[dimension] for dimension in range(0, self.reduced_space)]
+
+    def print_transformation(self):
+        topics = self.lsi_model.show_topics(num_words=self.space.length(), formatted=False)
+        for topic in topics:
+                print [(round(value, 4), token) for value, token in topic]
